@@ -47,12 +47,17 @@ stages:
         command: 'output'
         workingDirectory: '$(WORKING_DIR)'
         environmentServiceNameAzureRM: 'service_connection'
-        
+    - task: Bash@3
+      name: setvariable
+      inputs:
+        script: |
+          APPNAME=$(cat $(TerraformOutputs.jsonOutputVariablesPath) | jq '.appname.value' -r)
+
   - job: build_publish
     displayName: 'Build and Publish'
     dependsOn: tf
     variables:
-      appname: $[ dependencies.tf.outputs['terraformOutput.appname'] ]
+      appname: $[ dependencies.tf.outputs['setvariable.APPNAME'] ]
     steps:
     - task: UseDotNet@2
       displayName: 'Install .NET Core SDK'
