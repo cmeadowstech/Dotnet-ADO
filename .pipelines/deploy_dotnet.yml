@@ -35,7 +35,7 @@ stages:
         workingDirectory: '$(WORKING_DIR)'
         environmentServiceNameAzureRM: 'service_connection'
         
-  - job: build-publish
+  - job: build_publish
     displayName: 'Build and Publish'
     dependsOn: tf-outputs
     variables:
