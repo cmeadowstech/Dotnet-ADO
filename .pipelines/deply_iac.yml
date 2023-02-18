@@ -3,11 +3,37 @@ name: Deploy Terraform IAC
 
 trigger: none
 
+parameters:
+- name: ENV
+  displayName: 'Which Environment to deploy to'
+  type: string
+  default: 'DEV'
+  values:
+  - 'DEV'
+  - 'PROD'
+- name: LOCATION
+  displayName: Resource Location
+  type: string
+  default: 'East US'
+  values:
+  - 'East US'
+  - 'Central US'
+- name: SKU
+  displayName: 'App Service Plan SKU'
+  type: string
+  default: 'F1'
+  values:
+  - 'F1'
+  - 'B1'
+- name: APPNAME
+  displayName: 'App Name'
+  type: string
+
 variables: 
-  TF_VAR_APPNAME: '$(APPNAME)'
-  TF_VAR_ENV: '$(ENV)'
-  TF_VAR_LOCATION: '$(LOCATION)'
-  TF_VAR_SKU: '$(SKU)'
+  TF_VAR_APPNAME: ${{ parameters.APPNAME }}
+  TF_VAR_ENV: ${{ parameters.ENV }}
+  TF_VAR_LOCATION: ${{ parameters.LOCATION }}
+  TF_VAR_SKU: ${{ parameters.SKU }}
 
 stages:
 - stage: DeployTerraform
