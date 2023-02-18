@@ -49,6 +49,7 @@ stages:
         environmentServiceNameAzureRM: 'service_connection'
         
     - bash: |
+          cd $(WORKING_DIR)
           APPNAME=$(cat $(TerraformOutputs.jsonOutputVariablesPath) | jq '.appname.value' -r)
       displayName: 'Set Variable'
       name: setVariable
