@@ -28,3 +28,10 @@ stages:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
         environmentServiceNameAzureRM: 'service_connection'
+    
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+        environmentServiceNameAzureRM: 'service_connection'
