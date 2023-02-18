@@ -1,0 +1,13 @@
+
+name: Deploy Terraform IAC
+
+trigger: none
+
+stages:
+- stage: DeployTerraform
+  jobs:
+  - job:
+    displayName: 'Deploy Terraform'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
