@@ -30,7 +30,7 @@ resource "azurerm_linux_web_app" "web-app" {
     always_on = azurerm_service_plan.asp.sku_name == "F1" ? false : true
 
     application_stack {
-      dotnet_version = "6.0"
+      dotnet_version = "7.0"
     }
   }
 }
