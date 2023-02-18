@@ -17,10 +17,7 @@ resource "azurerm_service_plan" "asp" {
   sku_name = var.SKU
 }
 
-resource "azurerm_linux_web_app" "web-app" {
-  depends_on = [
-    azurerm_service_plan.asp
-  ]
+resource "azurerm_windows_web_app" "web-app" {
   name                = "${var.ENV}-${var.APPNAME}-APP-${random_integer.ri.result}"
   location            = var.LOCATION
   resource_group_name = azurerm_resource_group.rg.name
@@ -39,6 +36,6 @@ resource "azurerm_linux_web_app" "web-app" {
 }
 
 output "appname" {
-  value = azurerm_linux_web_app.web-app.name
+  value = azurerm_windows_web_app.web-app.name
   description = "Name of deployed app"
 }
