@@ -9,7 +9,8 @@ stages:
   - job:
     displayName: 'Deploy Terraform'
     pool:
-      vmImage: 'ubuntu-latest'
+      pool: 'pi'
+      name: 'raspberrypi'
     steps:
     - task: TerraformTaskV4@4
       inputs:
