@@ -24,7 +24,7 @@ stages:
 - stage: DeployTerraform
   jobs:
   - job: tf-outputs
-    isplayName: 'BGet app name'
+    displayName: 'Get app name'
     steps:
     - task: TerraformTaskV4@4
       name: terraformOutput
