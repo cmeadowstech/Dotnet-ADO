@@ -30,6 +30,7 @@ parameters:
   type: string
 
 variables: 
+  WORKING_DIR: ${{ join('/', [System.DefaultWorkingDirectory,'infra',lower(parameters.ENV)]) }}
   TF_VAR_APPNAME: ${{ parameters.APPNAME }}
   TF_VAR_ENV: ${{ parameters.ENV }}
   TF_VAR_LOCATION: ${{ parameters.LOCATION }}
@@ -47,7 +48,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+        workingDirectory: '$(WORKING_DIR'
         commandOptions: '-backend-config=backend.conf'
         backendServiceArm: 'service_connection'
         backendAzureRmResourceGroupName: 'tf-state'
@@ -60,7 +61,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+        workingDirectory: '$(WORKING_DIR'
         environmentServiceNameAzureRM: 'service_connection'
     
     - task: TerraformTaskV4@4
@@ -68,5 +69,5 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+        workingDirectory: '$(WORKING_DIR'
         environmentServiceNameAzureRM: 'service_connection'

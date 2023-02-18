@@ -16,7 +16,7 @@ terraform {
 }
 
 module "app_service_module" {
-  source   = "./app_service_module"
+  source   = "../modules/app_service_module"
   LOCATION = var.LOCATION
   ENV      = var.ENV
   APPNAME  = var.APPNAME
