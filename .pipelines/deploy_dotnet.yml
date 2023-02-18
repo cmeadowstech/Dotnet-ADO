@@ -21,7 +21,7 @@ variables:
   WORKING_DIR: '$(System.DefaultWorkingDirectory)/infra/${{ lower(parameters.ENV) }}'
 
 stages:
-- stage: DeployTerraform
+- stage: terraformOutput
   jobs:
   - job: tf
     displayName: 'Get app name'
