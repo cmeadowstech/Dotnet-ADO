@@ -72,7 +72,8 @@ stages:
 
     - task: AzureWebApp@1
       inputs:
-        azureSubscription: '<Azure service connection>'
-        appType: 'webAppWindows'
+        azureSubscription: 'service_connection'
+        appType: 'webApp'
         appName: '$(appname)'
         package: '$(Build.ArtifactStagingDirectory)/*.zip'
+        deploymentMethod: 'auto'
