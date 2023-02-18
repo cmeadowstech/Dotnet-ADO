@@ -37,7 +37,7 @@ stages:
         
   - job: build_publish
     displayName: 'Build and Publish'
-    dependsOn: tf-outputs
+    dependsOn: tf
     variables:
       appname: $[ dependencies.tf.outputs['terraformOutput.appname'] ]
     steps:
