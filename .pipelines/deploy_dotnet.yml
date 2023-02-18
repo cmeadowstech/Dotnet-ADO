@@ -23,11 +23,11 @@ variables:
 stages:
 - stage: DeployTerraform
   jobs:
-  - job: tf-outputs
+  - job: tf
     displayName: 'Get app name'
     steps:
     - task: TerraformTaskV4@4
-      name: tf-out
+      name: terraformOutput
       displayName: 'Terraform Output'
       inputs:
         provider: 'azurerm'
@@ -39,7 +39,7 @@ stages:
     displayName: 'Build and Publish'
     dependsOn: tf-outputs
     variables:
-      appname: $[ dependencies.tf-outputs.outputs['tf-out.appname'] ]
+      appname: $[ dependencies.tf.outputs['terraformOutput.appname'] ]
     steps:
     - task: UseDotNet@2
       displayName: 'Install .NET Core SDK'
