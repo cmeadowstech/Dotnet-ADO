@@ -17,8 +17,8 @@ terraform {
 
 module "app_service_module" {
   source   = "./app_service_module"
-  location = "East US"
-  env      = "DEV"
-  appname  = "DOT-NET-TEST"
-  sku      = "F1"
+  LOCATION = var.LOCATION
+  ENV      = var.ENV
+  APPNAME  = var.APPNAME
+  SKU      = var.SKU
 }

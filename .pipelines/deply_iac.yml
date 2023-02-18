@@ -3,6 +3,12 @@ name: Deploy Terraform IAC
 
 trigger: none
 
+variables: 
+  TF_VAR_APPNAME: '$(APPNAME)'
+  TF_VAR_ENV: '$(ENV)'
+  TF_VAR_LOCATION: '$(LOCATION)'
+  TF_VAR_SKU: '$(SKU)'
+
 stages:
 - stage: DeployTerraform
   jobs:

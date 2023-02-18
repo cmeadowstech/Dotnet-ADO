@@ -4,22 +4,22 @@ resource "random_integer" "ri" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.env}-${var.appname}-RG-${random_integer.ri.result}"
+  name     = "${var.ENV}-${var.APPNAME}-RG-${random_integer.ri.result}"
   location = var.location
 }
 
 resource "azurerm_service_plan" "asp" {
-  name                = "${var.env}-${var.appname}-ASP-${random_integer.ri.result}"
-  location            = var.location
+  name                = "${var.ENV}-${var.APPNAME}-ASP-${random_integer.ri.result}"
+  location            = var.LOCATION
   resource_group_name = azurerm_resource_group.rg.name
 
   os_type  = "Linux"
-  sku_name = var.sku
+  sku_name = var.SKU
 }
 
 resource "azurerm_linux_web_app" "web-app" {
-  name                = "${var.env}-${var.appname}-APP-${random_integer.ri.result}"
-  location            = var.location
+  name                = "${var.ENV}-${var.APPNAME}-APP-${random_integer.ri.result}"
+  location            = var.LOCATION
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.asp.id
 
