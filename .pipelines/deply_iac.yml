@@ -10,7 +10,6 @@ stages:
     displayName: 'Deploy Terraform'
     pool:
       pool: 'pi'
-      name: 'raspberrypi'
     steps:
     - task: TerraformTaskV4@4
       inputs:
