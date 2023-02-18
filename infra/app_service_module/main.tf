@@ -27,6 +27,7 @@ resource "azurerm_linux_web_app" "web-app" {
 
   site_config {
     minimum_tls_version = "1.2"
+    always_on = azurerm_service_plan.asp.sku_name == "F1" ? false : true
 
     application_stack {
       dotnet_version = "6.0"
