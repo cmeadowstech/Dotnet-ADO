@@ -30,7 +30,7 @@ parameters:
   type: string
 
 variables: 
-  WORKING_DIR: ${{ join('/', [System.DefaultWorkingDirectory,'infra',lower(parameters.ENV)]) }}
+  WORKING_DIR: '$(System.DefaultWorkingDirectory)/infra/${{ lower(parameters.ENV) }}'
   TF_VAR_APPNAME: ${{ parameters.APPNAME }}
   TF_VAR_ENV: ${{ parameters.ENV }}
   TF_VAR_LOCATION: ${{ parameters.LOCATION }}
