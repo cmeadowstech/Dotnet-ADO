@@ -11,3 +11,21 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+        commandOptions: '-backend-config=backend.conf'
+        backendServiceArm: 'service_connection'
+        backendAzureRmResourceGroupName: 'tf-state'
+        backendAzureRmStorageAccountName: 'tfstate0934934'
+        backendAzureRmContainerName: 'tf-state'
+        backendAzureRmKey: 'net-test-workspace/terraform.tfstate'
+
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+        environmentServiceNameAzureRM: 'service_connection'
