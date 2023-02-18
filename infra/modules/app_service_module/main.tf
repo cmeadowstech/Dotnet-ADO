@@ -13,7 +13,7 @@ resource "azurerm_service_plan" "asp" {
   location            = var.LOCATION
   resource_group_name = azurerm_resource_group.rg.name
 
-  os_type  = "Linux"
+  os_type  = "Windows"
   sku_name = var.SKU
 }
 
