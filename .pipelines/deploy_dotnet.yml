@@ -27,6 +27,19 @@ stages:
     displayName: 'Get app name'
     steps:
     - task: TerraformTaskV4@4
+      displayName: 'Terraform Init'
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(WORKING_DIR)'
+        commandOptions: '-backend-config=backend.conf'
+        backendServiceArm: 'service_connection'
+        backendAzureRmResourceGroupName: 'tf-state'
+        backendAzureRmStorageAccountName: 'tfstate0934934'
+        backendAzureRmContainerName: 'tf-state'
+        backendAzureRmKey: 'net-test-workspace/terraform.tfstate'
+
+    - task: TerraformTaskV4@4
       name: terraformOutput
       displayName: 'Terraform Output'
       inputs:
