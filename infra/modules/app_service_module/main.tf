@@ -37,3 +37,8 @@ resource "azurerm_linux_web_app" "web-app" {
     }
   }
 }
+
+output "appname" {
+  value = azurerm_linux_web_app.web-app.name
+  description = "Name of deployed app"
+}

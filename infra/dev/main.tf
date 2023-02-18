@@ -22,3 +22,9 @@ module "app_service_module" {
   APPNAME  = var.APPNAME
   SKU      = var.SKU
 }
+
+
+output "appname" {
+  value = module.app_service_module.appname
+  description = "The public IP address of the web server"
+}
