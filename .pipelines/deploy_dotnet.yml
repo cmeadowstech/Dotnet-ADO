@@ -20,48 +20,59 @@ variables:
   buildConfiguration: 'Release'
   WORKING_DIR: '$(System.DefaultWorkingDirectory)/infra/${{ lower(parameters.ENV) }}'
 
-steps:
-- task: TerraformTaskV4@4
-  name: terraformOutput
-  displayName: 'Terraform Output'
-  inputs:
-    provider: 'azurerm'
-    command: 'output'
-    workingDirectory: '$(WORKING_DIR)'
-    environmentServiceNameAzureRM: 'service_connection'
+stages:
+- stage: DeployTerraform
+  jobs:
+  - job: tf-outputs
+    isplayName: 'BGet app name'
+    steps:
+    - task: TerraformTaskV4@4
+      name: terraformOutput
+      displayName: 'Terraform Output'
+      inputs:
+        provider: 'azurerm'
+        command: 'output'
+        workingDirectory: '$(WORKING_DIR)'
+        environmentServiceNameAzureRM: 'service_connection'
+        
+  - job: build-publish
+    displayName: 'Build and Publish'
+    dependsOn: tf-outputs
+    variables:
+      appname: $[ dependencies.tf-outputs.outputs['terraformOutput.appname'] ]
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core SDK'
+      inputs:
+        version: 7.x
+        performMultiLevelLookup: true
 
-- task: UseDotNet@2
-  displayName: 'Install .NET Core SDK'
-  inputs:
-    version: 7.x
-    performMultiLevelLookup: true
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore $(buildConfiguration)'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+        vstsFeed: 'my-vsts-feed'
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet restore $(buildConfiguration)'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-    feedsToUse: 'select'
-    vstsFeed: 'my-vsts-feed'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet publish $(buildConfiguration)'
+      inputs:
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: True
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish $(buildConfiguration)'
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
-
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: '<Azure service connection>'
-    appType: 'webAppLinux'
-    appName: '<Name of web app>'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: '<Azure service connection>'
+        appType: 'webAppWindows'
+        appName: '$(appname)'
+        package: '$(Build.ArtifactStagingDirectory)/*.zip'
