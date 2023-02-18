@@ -18,6 +18,9 @@ resource "azurerm_service_plan" "asp" {
 }
 
 resource "azurerm_linux_web_app" "web-app" {
+  depends_on = [
+    azurerm_service_plan.asp
+  ]
   name                = "${var.ENV}-${var.APPNAME}-APP-${random_integer.ri.result}"
   location            = var.LOCATION
   resource_group_name = azurerm_resource_group.rg.name
