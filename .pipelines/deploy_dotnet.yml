@@ -28,7 +28,6 @@ stages:
   jobs:
   - job: build_publish
     displayName: 'Build and Publish'
-    dependsOn: tf
     variables:
       appname: $[ dependencies.tf.outputs['setVariable.APPNAME'] ]
     steps:
