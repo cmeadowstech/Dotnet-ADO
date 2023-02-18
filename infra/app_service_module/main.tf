@@ -5,7 +5,7 @@ resource "random_integer" "ri" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "${var.ENV}-${var.APPNAME}-RG-${random_integer.ri.result}"
-  location = var.location
+  location = var.LOCATION
 }
 
 resource "azurerm_service_plan" "asp" {
