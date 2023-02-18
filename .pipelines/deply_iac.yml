@@ -8,8 +8,7 @@ stages:
   jobs:
   - job:
     displayName: 'Deploy Terraform'
-    pool:
-      pool: 'pi'
+    pool: 'pi'
     steps:
     - task: TerraformTaskV4@4
       inputs:
