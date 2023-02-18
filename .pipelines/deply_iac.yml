@@ -11,6 +11,7 @@ stages:
     pool: 'pi'
     steps:
     - task: TerraformTaskV4@4
+      displayName: 'Terraform Init'
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -23,6 +24,7 @@ stages:
         backendAzureRmKey: 'net-test-workspace/terraform.tfstate'
 
     - task: TerraformTaskV4@4
+      displayName: 'Terraform Plan'
       inputs:
         provider: 'azurerm'
         command: 'plan'
@@ -30,6 +32,7 @@ stages:
         environmentServiceNameAzureRM: 'service_connection'
     
     - task: TerraformTaskV4@4
+      displayName: 'Terraform Apply'
       inputs:
         provider: 'azurerm'
         command: 'apply'
